@@ -1,11 +1,14 @@
 import uvicorn, os
 from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from routes.payment import router as payment_router
 from service.database import create_tables, SessionLocal
 
 app = FastAPI()
+
+Instrumentator().instrument(app).expose(app)
 
 # CORS 설정
 # origins = [
