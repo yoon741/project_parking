@@ -3,6 +3,7 @@ import os
 
 import uvicorn
 from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
@@ -10,6 +11,8 @@ from routes import parking
 from service.database import SessionLocal, create_tables
 
 app = FastAPI()
+
+Instrumentator().instrument(app).expose(app)
 
 # CORS 설정
 # origins = [
