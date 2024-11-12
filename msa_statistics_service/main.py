@@ -3,11 +3,14 @@ import os
 
 import uvicorn
 from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
 from routes import statistics
 from service.database import SessionLocal, create_tables
+
+Instrumentator().instrument(app).expose(app)
 
 app = FastAPI()
 
