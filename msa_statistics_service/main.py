@@ -10,7 +10,7 @@ from sqlalchemy import text
 from routes import statistics
 from service.database import SessionLocal, create_tables
 
-app = FastAPI()  # FastAPI 애플리케이션 객체를 먼저 정의
+app = FastAPI()
 
 # Instrumentator 설정
 Instrumentator().instrument(app).expose(app)
@@ -35,4 +35,11 @@ def mariadb():
     try:
         with SessionLocal() as conn:
             result = conn.execute(text('SELECT SYSDATE();')).scalar()
-            return {'msg': 'Database Connection Successful!!', 'result':
+            return {'msg': 'Database Connection Successful!!', 'result': f'{result}'}
+    except Exception as ex:
+        logging.error(f"Database Connection Failed: {ex}")
+        return {'msg': 'Database Connection Failed!!', 'error': str(ex)}
+
+if __name__ == '__main__':
+    create_tables()
+    uvicorn.run('main:app', port=8003, reload=True)
