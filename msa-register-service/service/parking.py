@@ -29,8 +29,6 @@ def register(db: Session, parking_data: ParkingBase):
     db.add(new_parkseat)
     db.commit()
 
-
-
 # 입차 내역 전부 조회
 def carlists(db: Session, parknum: str):
     query = (
